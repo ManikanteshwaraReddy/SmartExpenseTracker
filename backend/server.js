@@ -18,6 +18,10 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.log('MongoDB connection error:', err));
 
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
 // Routes
 app.use('/api/expenses', require('./routes/expenseRoutes'));
 app.use('/api/deals', require('./routes/dealRoutes'));
