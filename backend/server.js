@@ -7,28 +7,48 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'https://smart-expense-tracker-beta.vercel.app',
+    'http://localhost:19006',
+    'exp://192.168.1.X:19000'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
-// Connect to MongoDB
+// Routes
+const expenseRoutes = require('./routes/expenseRoutes');
+const dealRoutes = require('./routes/dealRoutes');
+const userRoutes = require('./routes/userRoutes');
+
+app.use('/api/expenses', expenseRoutes);
+app.use('/api/deals', dealRoutes);
+app.use('/api/users', userRoutes);
+
+// MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {
-  serverSelectionTimeoutMS: 5000,
-  socketTimeoutMS: 45000,
-  connectTimeoutMS: 10000
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 })
 .then(() => console.log('MongoDB connected successfully'))
-.catch(err => {
-  console.error('Detailed MongoDB Connection Error:', err);
-  process.exit(1);
-});
+.catch((err) => console.error('MongoDB connection error:', err));
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-// Routes
-app.use('/api/expenses', require('./routes/expenseRoutes'));
-app.use('/api/deals', require('./routes/dealRoutes'));
-app.use('/api/users', require('./routes/userRoutes'));
+// Error Handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ 
+    error: 'Something went wrong!',
+    message: err.message 
+  });
+});
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
