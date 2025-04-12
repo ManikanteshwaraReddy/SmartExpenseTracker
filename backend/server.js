@@ -11,7 +11,6 @@ app.use(cors({
   origin: [
     'https://smart-expense-tracker-beta.vercel.app',
     'http://localhost:19006',
-    'exp://192.168.1.X:19000'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']

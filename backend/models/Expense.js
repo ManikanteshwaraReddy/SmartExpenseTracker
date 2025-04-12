@@ -24,6 +24,10 @@ const ExpenseSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  isRecurring: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true
