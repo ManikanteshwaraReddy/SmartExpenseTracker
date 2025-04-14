@@ -12,7 +12,7 @@ const api = axios.create({
 
 export const getExpenses = async (startDate, endDate) => {
   try {
-    let url = '/expenses';
+    let url = '/api/expenses';
     if (startDate && endDate) {
       url += `?start_date=${startDate}&end_date=${endDate}`;
     } else if (startDate) {
@@ -29,7 +29,7 @@ export const getExpenses = async (startDate, endDate) => {
 export const addExpense = async (expense) => {
     try {
     expense.isRecurring = expense.isRecurring || false;
-    const response = await api.post('/expenses', expense);
+    const response = await api.post('/api/expenses', expense);
     return response.data;
   } catch (error) {
     console.error('Error adding expense:', error);
@@ -40,7 +40,7 @@ export const addExpense = async (expense) => {
 export const updateExpense = async (id, expense) => {
     expense.isRecurring = expense.isRecurring || false;
   try {
-    const response = await api.put(`/expenses/${id}`, expense);
+    const response = await api.put(`/api/expenses/${id}`, expense);
     return response.data;
   } catch (error) {
     console.error('Error updating expense:', error);
@@ -50,7 +50,7 @@ export const updateExpense = async (id, expense) => {
 
 export const deleteExpense = async (id) => {
   try {
-    const response = await api.delete(`/expenses/${id}`);
+    const response = await api.delete(`/api/expenses/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error deleting expense:', error);
