@@ -9,8 +9,8 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors({
   origin: [
-    'https://smart-expense-tracker-beta.vercel.app',
-    'http://localhost:19006',
+    'https://smart-expense-tracker-steel.vercel.app',
+    // 'http://localhost:19006',
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']

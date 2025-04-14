@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://smart-expense-tracker-beta.vercel.app';
+const API_URL = 'https://smart-expense-tracker-steel.vercel.app';
 
 const api = axios.create({
   baseURL: API_URL,
