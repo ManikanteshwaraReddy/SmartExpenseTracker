@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { View, Text, StyleSheet, Button, ActivityIndicator } from 'react-native';
 import ExpenseForm from '../components/ExpenseForm';
 import ExpenseList from '../components/ExpenseList';
 import { getExpenses, addExpense, updateExpense, deleteExpense } from '../services/api';
+import { AuthContext } from '../context/AuthContext';
 
 function ExpenseScreen() {
   const [expenses, setExpenses] = useState([]);
+  const { token, loading } = useContext(AuthContext);
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -19,9 +21,12 @@ function ExpenseScreen() {
     }
   };
 
-  useEffect(() => {
-    fetchExpenses(startDate, endDate);
-  }, [startDate, endDate]);
+    useEffect(() => {
+        if (!loading && token) {
+            fetchExpenses(startDate, endDate);
+        }
+    }, [startDate, endDate, loading, token]);
+
 
   const handleAddOrUpdateExpense = async (expense) => {
     try {
@@ -48,6 +53,9 @@ function ExpenseScreen() {
   };
 
   return (
+    loading ? (
+        <Text>Loading expenses...</Text>
+    ) :
     <View style={styles.container}>
       <Text style={styles.title}>Expenses</Text>
       <ExpenseForm
@@ -87,5 +95,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
 });
-
 export default ExpenseScreen;
+
+
+
