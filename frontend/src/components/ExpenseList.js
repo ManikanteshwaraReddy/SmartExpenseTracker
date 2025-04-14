@@ -119,7 +119,7 @@ function ExpenseList({ onEdit }) {
 const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   },
   datePickerContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     padding: 10,
   },
   datePickerButton: {

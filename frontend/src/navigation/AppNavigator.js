@@ -2,12 +2,26 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons'; // Make sure to install @expo/vector-icons
 
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 // Import your screen components
 import HomeScreen from '../screens/HomeScreen';
 import ExpenseScreen from '../screens/ExpenseScreen';
 import DealScreen from '../screens/DealScreen';
 import AnalyticsScreen from '../screens/AnalyticsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+
+
+const Stack = createNativeStackNavigator();
+
+function ExpensesNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="ExpensesMain" component={ExpenseScreen} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+}
+
 
 const Tab = createBottomTabNavigator();
 
@@ -17,6 +31,7 @@ function AppNavigator() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
+
 
           if (route.name === 'Home') {
             iconName = focused ? 'home' : 'home-outline';
@@ -37,7 +52,7 @@ function AppNavigator() {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Expenses" component={ExpenseScreen} />
+      <Tab.Screen name="Expenses" component={ExpensesNavigator}  options={{ headerShown: false }} />
       <Tab.Screen name="Deals" component={DealScreen} />
       <Tab.Screen name="Analytics" component={AnalyticsScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
