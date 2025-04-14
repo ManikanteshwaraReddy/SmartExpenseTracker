@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { useContext } from 'react'; // Add this import
+import { AuthContext } from '../context/AuthContext';
 
 const API_URL = 'https://smart-expense-tracker-steel.vercel.app';
 
@@ -10,6 +12,26 @@ const api = axios.create({
   }
 });
 
+// Add request interceptor
+api.interceptors.request.use(
+  (config) => {
+    // Get token directly from localStorage or use useContext properly
+    const token = localStorage.getItem('token'); // Recommended approach if you're storing token in localStorage
+    
+    // Alternative if you must use AuthContext:
+    // const { getToken } = useContext(AuthContext);
+    // const token = getToken();
+    
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export const getExpenses = async (startDate, endDate) => {
   try {
     let url = '/api/expenses';
@@ -18,7 +40,9 @@ export const getExpenses = async (startDate, endDate) => {
     } else if (startDate) {
       url += `?start_date=${startDate}`;
     } else if (endDate) {
-      url += `?end_date=${endDate}`;}    const response = await api.get(url);
+      url += `?end_date=${endDate}`;
+    }
+    const response = await api.get(url);
     return response.data;
   } catch (error) {
     console.error('Error fetching expenses:', error);
@@ -27,7 +51,7 @@ export const getExpenses = async (startDate, endDate) => {
 };
 
 export const addExpense = async (expense) => {
-    try {
+  try {
     expense.isRecurring = expense.isRecurring || false;
     const response = await api.post('/api/expenses', expense);
     return response.data;
@@ -38,8 +62,8 @@ export const addExpense = async (expense) => {
 };
 
 export const updateExpense = async (id, expense) => {
-    expense.isRecurring = expense.isRecurring || false;
   try {
+    expense.isRecurring = expense.isRecurring || false;
     const response = await api.put(`/api/expenses/${id}`, expense);
     return response.data;
   } catch (error) {
