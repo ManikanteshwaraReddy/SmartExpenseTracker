@@ -17,7 +17,7 @@ const Stack = createNativeStackNavigator();
 function ExpensesNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="ExpensesMain" component={() => <ExpenseScreen />} options={{ headerShown: false }} />
+      <Stack.Screen name="ExpensesMain" component={ExpenseScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
