@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 
+const isValidDate = (date) => {
+  return !isNaN(new Date(date).getTime());
+};
+
+
 const ExpenseSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -23,7 +28,11 @@ const ExpenseSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
-    default: Date.now
+    default: Date.now,
+    validate: {
+      validator: isValidDate,
+      message: 'Invalid date format',
+    },
   },
   isRecurring: {
     type: Boolean,

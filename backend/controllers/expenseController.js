@@ -28,14 +28,15 @@ exports.getExpenses = async (req, res) => {
 
 exports.addExpense = async (req, res) => {
   try {
-    const { amount, description, category, isRecurring } = req.body;
+    const { amount, description, category, isRecurring, date } = req.body;
+    const expenseDate = date ? new Date(date) : new Date();
 
     const newExpense = new Expense({
       user: req.user.id,
       amount,
       description,
       category,
-      date: new Date(),
+      date: expenseDate,
       isRecurring: isRecurring || false,
     });
 

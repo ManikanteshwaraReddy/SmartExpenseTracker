@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useContext } from 'react'; // Add this import
+import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
 const API_URL = 'https://smart-expense-tracker-steel.vercel.app';
@@ -15,14 +15,12 @@ const api = axios.create({
 // Add request interceptor
 api.interceptors.request.use(
   (config) => {
-    // Get token directly from localStorage or use useContext properly
-    const token = localStorage.getItem('token'); // Recommended approach if you're storing token in localStorage
-    
-    // Alternative if you must use AuthContext:
-    // const { getToken } = useContext(AuthContext);
-    // const token = getToken();
-    
+    const { getToken } = useContext(AuthContext);
+    const token = getToken();
+        
     if (token) {
+
+
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;

@@ -1,18 +1,19 @@
-const jwt = require('jsonwebtoken');
+const admin = require("firebase-admin");
 
 const auth = async (req, res, next) => {
   try {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
-    
+    const token = req.header("Authorization")?.replace("Bearer ", "");
+
     if (!token) {
-      return res.status(401).json({ message: 'No authentication token, access denied' });
+      return res.status(401).json({ message: "No authentication token, access denied" });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    req.user = decodedToken; // The decoded token contains user information (e.g., uid)
     next();
   } catch (error) {
-    res.status(401).json({ message: 'Token is not valid' });
+    console.error("Error verifying token:", error);
+    res.status(401).json({ message: "Token is not valid" });
   }
 };
 

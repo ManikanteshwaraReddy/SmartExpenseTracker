@@ -1,25 +1,41 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
-
-// Dummy data for demonstration
-const dummyDeals = [
-  { id: '1', title: '50% off Uber rides', description: 'Valid for first-time users' },
-  { id: '2', title: '$10 off Food Delivery', description: 'Use code SAVE10' },
-];
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
+import { getDeals } from '../services/api'; // Import the API function
 
 function DealList() {
+  const [deals, setDeals] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchDeals = async () => {
+      try {
+        const fetchedDeals = await getDeals();
+        setDeals(fetchedDeals);
+      } catch (err) {
+        setError(err.message || 'Failed to fetch deals');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDeals();
+  }, []);
+
   const renderItem = ({ item }) => (
     <View style={styles.item}>
       <Text style={styles.title}>{item.title}</Text>
-      <Text>{item.description}</Text>
+      <Text>{item.description} - {item.discount}</Text>
     </View>
   );
 
+  if (loading) return <ActivityIndicator size="large" />;
+  if (error) return <Text>Error: {error}</Text>;
+
   return (
     <FlatList
-      data={dummyDeals}
+      data={deals}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item._id}
       contentContainerStyle={styles.list}
     />
   );

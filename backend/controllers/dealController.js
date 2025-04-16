@@ -1,18 +1,21 @@
 const Deal = require('../models/Deal');
 const Expense = require('../models/Expense');
+const mlHelper = require('../utils/mlHelper');
 
 exports.getDeals = async (req, res) => {
   try {
-    // Get user's expense categories
-    const userCategories = await Expense.distinct('category', { 
-      user: req.user.id 
+    // Get user's expenses
+    const userExpenses = await Expense.find({ user: req.user.id });
+
+    // Use ML model to predict relevant categories
+    const recommendedCategories = mlHelper.predictDeals(userExpenses);
+
+    // Find relevant deals based on recommended categories
+    const deals = await Deal.find({
+      category: { $in: recommendedCategories },
+      expiryDate: { $gt: new Date() },
     });
 
-    // Find relevant deals based on user's spending categories
-    const deals = await Deal.find({
-      category: { $in: userCategories },
-      expiryDate: { $gt: new Date() }
-    }).sort({ expiryDate: 1 });
 
     res.json(deals);
   } catch (error) {

@@ -1,6 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const admin = require('firebase-admin');
+
+
+// Initialize Firebase Admin SDK
+const serviceAccount = {
+  // Add your Firebase service account credentials here
+};
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
 require('dotenv').config();
 
 const app = express();
