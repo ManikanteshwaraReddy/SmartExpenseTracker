@@ -10,7 +10,7 @@ const SignupScreen = ({ navigation }) => {
 
   const handleSignup = async () => {
     setError('');
-    const result = await signup(email, password);
+    const result = await signup({ email: email, password: password });
     if (result.error) {
       setError(result.error);
     }

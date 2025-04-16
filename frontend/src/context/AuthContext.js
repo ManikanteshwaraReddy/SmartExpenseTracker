@@ -21,6 +21,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
 
   const login = async (userData) => {
     try {
@@ -49,70 +50,51 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await signOut(auth);
+      setToken(null);
       return { success: true };
     } catch (error) {
       console.error('Logout error:', error);
       return { success: false, error: 'Logout failed' };
     }
   };
-  
+
   const getToken = useCallback(async () => {
     try {
-      if (auth.currentUser) {
-        return await auth.currentUser.getIdToken();
-      } else {
-        return null;
+      if (user) {
+        const idToken = await user.getIdToken();
+        setToken(idToken);
+        return idToken;
       }
+      return null;
     } catch (error) {
       console.error('Error getting token:', error);
       return null;
     }
-  }, []);
-  
+  }, [user]);
+
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
       setUser(authUser);
+      if (authUser) {
+        const idToken = await authUser.getIdToken();
+        setToken(idToken);
+      } else {
+        setToken(null);
+      }
       setLoading(false);
     });
     return () => unsubscribe();
   }, []);
-  
-  
-  const value = {
-    user,
-    loading,
-    login,
-    signup,
-    logout,
-    getToken,
-    isAuthenticated: !!user,
-  };
-  
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    loadUserData();
-  }, [loadUserData]);
-
-  const getToken = useCallback(() => token, [token]);
 
   const value = {
     user,
     token,
     loading,
     login,
+    signup,
     logout,
     getToken,
-    isAuthenticated: !!token,
+    isAuthenticated: !!user,
   };
 
   return (

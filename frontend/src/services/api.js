@@ -14,9 +14,9 @@ const api = axios.create({
 
 // Add request interceptor
 api.interceptors.request.use(
-  (config) => {
-    const { getToken } = useContext(AuthContext);
-    const token = getToken();
+  async (config) => {
+    const { getToken } =  useContext(AuthContext);
+    const token = await getToken();
         
     if (token) {
 
