@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "428593814714",
+    "project_id": "smartexpensetracker-7bdda",
+    "storage_bucket": "smartexpensetracker-7bdda.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:428593814714:android:ac40aad7c516ab59a33683",
+        "android_client_info": {
+          "package_name": "com.smartsave.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVHywZM1q7-rmdvxdbBW_No_d6w50pQuI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
