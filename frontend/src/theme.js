@@ -19,10 +19,10 @@ export const SIZES = {
 };
 
 export const FONTS = {
-  h1: { fontSize: SIZES.xlarge, fontWeight: 'bold' },
-  h2: { fontSize: SIZES.large, fontWeight: 'bold' },
-  body1: { fontSize: SIZES.font },
-  body2: { fontSize: SIZES.small },
+  h1: { fontFamily: 'System', fontSize: SIZES.xlarge, fontWeight: 'bold' },
+  h2: { fontFamily: 'System', fontSize: SIZES.large, fontWeight: 'bold' },
+  body1: { fontFamily: 'System', fontSize: SIZES.font },
+  body2: { fontFamily: 'System', fontSize: SIZES.small },
 };
 
 const appTheme = { COLORS, SIZES, FONTS };
