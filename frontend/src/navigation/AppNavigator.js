@@ -10,9 +10,19 @@ import ExpenseScreen from '../screens/ExpenseScreen';
 import DealScreen from '../screens/DealScreen';
 import AnalyticsScreen from '../screens/AnalyticsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import AIAdvisorScreen from '../screens/AIAdvisorScreen';
 
 
 const Stack = createNativeStackNavigator();
+
+function HomeNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="HomeMain" component={HomeScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="AIAdvisor" component={AIAdvisorScreen} />
+    </Stack.Navigator>
+  );
+}
 
 function ExpensesNavigator() {
   return (
@@ -51,7 +61,7 @@ function AppNavigator() {
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Home" component={HomeNavigator} options={{ headerShown: false }} />
       <Tab.Screen name="Expenses" component={ExpensesNavigator}  options={{ headerShown: false }} />
       <Tab.Screen name="Deals" component={DealScreen} />
       <Tab.Screen name="Analytics" component={AnalyticsScreen} />

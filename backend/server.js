@@ -34,10 +34,12 @@ app.use(express.json());
 const expenseRoutes = require('./routes/expenseRoutes');
 const dealRoutes = require('./routes/dealRoutes');
 const userRoutes = require('./routes/userRoutes');
+const aiRoutes = require('./routes/aiRoutes');
 
 app.use('/api/expenses', expenseRoutes);
 app.use('/api/deals', dealRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/ai', aiRoutes);
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {
